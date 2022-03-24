@@ -13,14 +13,12 @@ func CreateUser(c *gin.Context) {
 	defer db.Close()
 
 	var user m.User
-
 	err := c.Bind(&user)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
 	db.Exec("INSERT INTO users (uid, username, age) VALUES (?,?,?)", user.UID, user.Username, user.Age)
-
 	c.IndentedJSON(http.StatusOK, user)
 }
 
@@ -35,7 +33,6 @@ func RetrieveUser(c *gin.Context) {
 
 	var user m.User
 	var users []m.User
-
 	for result.Next() {
 		errQ = result.Scan(&user.UID, &user.Username, &user.Age)
 		if errQ != nil {
@@ -55,7 +52,6 @@ func UpdateUser(c *gin.Context) {
 	defer db.Close()
 
 	var user m.User
-
 	err := c.Bind(&user)
 	if err != nil {
 		fmt.Print(err)
