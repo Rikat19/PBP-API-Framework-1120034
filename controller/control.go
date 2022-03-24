@@ -12,13 +12,14 @@ func CreateUser(c *gin.Context) {
 	db := Connect()
 	defer db.Close()
 
+	query := "INSERT INTO users (uid, username, age) VALUES (?,?,?)"
 	var user m.User
 	err := c.Bind(&user)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
-	db.Exec("INSERT INTO users (uid, username, age) VALUES (?,?,?)", user.UID, user.Username, user.Age)
+	db.Exec(query, user.UID, user.Username, user.Age)
 	c.IndentedJSON(http.StatusOK, user)
 }
 
@@ -26,7 +27,8 @@ func RetrieveUser(c *gin.Context) {
 	db := Connect()
 	defer db.Close()
 
-	result, errQ := db.Query("SELECT * from users")
+	query := "SELECT * from users"
+	result, errQ := db.Query(query)
 	if errQ != nil {
 		fmt.Print("Error", errQ.Error())
 	}
@@ -57,8 +59,8 @@ func UpdateUser(c *gin.Context) {
 		fmt.Print(err)
 		return
 	}
-
-	result, errQ := db.Exec("UPDATE users SET username=?, age=? WHERE UID=?", user.Username, user.Age, user.UID)
+	query := "UPDATE users SET username=?, age=? WHERE UID=?"
+	result, errQ := db.Exec(query, user.Username, user.Age, user.UID)
 	num, _ := result.RowsAffected()
 	if errQ == nil {
 		if num == 0 {
@@ -76,7 +78,8 @@ func DeleteUser(c *gin.Context) {
 
 	uid := c.Query("UID")
 
-	result, errQ := db.Exec("DELETE FROM users WHERE uid=?", uid)
+	query := "DELETE FROM users WHERE uid=?"
+	result, errQ := db.Exec(query, uid)
 	num, _ := result.RowsAffected()
 	if errQ == nil {
 		if num == 0 {

@@ -12,5 +12,5 @@ func main() {
 	r.GET("/get", c.RetrieveUser)
 	r.PUT("/update", c.UpdateUser)
 	r.DELETE("/delete", c.DeleteUser)
-	r.Run()
+	r.Run(":8080")
 }
