@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	c "github.com/gin/controller"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {

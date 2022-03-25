@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	m "github.com/gin/model"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func CreateUser(c *gin.Context) {
